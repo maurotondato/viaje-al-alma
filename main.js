@@ -128,14 +128,6 @@
     video.addEventListener("playing", markActive, { once: true });
     var playPromise = video.play();
     if (playPromise && playPromise.catch) playPromise.catch(function () { /* autoplay blocked, poster stays visible */ });
-
-    var soundBtn = $("[data-hero-sound]");
-    if (soundBtn) {
-      soundBtn.addEventListener("click", function () {
-        video.muted = !video.muted;
-        soundBtn.setAttribute("aria-pressed", String(!video.muted));
-      });
-    }
   }
 
   /* ---------- accordion (FAQ) ---------- */
