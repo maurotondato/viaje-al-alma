@@ -32,17 +32,6 @@
     "foreign_landing_url": "https://commons.wikimedia.org/w/index.php?curid=177132885",
     "source": "wikimedia"
   },
-  "maldivas-aerial": {
-    "src": "assets/img/maldivas-aerial.webp",
-    "title": "Anantara Kihavah - Aerial Hero Shot 2024",
-    "creator": "Matheenfaiz",
-    "creator_url": "https://commons.wikimedia.org/w/index.php?title=User:Matheenfaiz&action=edit&redlink=1",
-    "license": "by-sa",
-    "license_version": "4.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "foreign_landing_url": "https://commons.wikimedia.org/w/index.php?curid=184680660",
-    "source": "wikimedia"
-  },
   "maldivas-underwater": {
     "src": "assets/img/maldivas-underwater.webp",
     "title": "Untitled",
@@ -53,16 +42,5 @@
     "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
     "foreign_landing_url": "https://www.rawpixel.com/image/6047278/free-public-domain-cc0-photo",
     "source": "rawpixel"
-  },
-  "maldivas-sunset": {
-    "src": "assets/img/maldivas-sunset.webp",
-    "title": "Beach at sunset",
-    "creator": "nattu",
-    "creator_url": "https://www.flickr.com/photos/33345813@N00",
-    "license": "by",
-    "license_version": "2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/",
-    "foreign_landing_url": "https://www.flickr.com/photos/33345813@N00/9354966897",
-    "source": "flickr"
   }
 }
