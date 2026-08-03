@@ -388,6 +388,7 @@ p { max-width: 62ch; }
 }
 .maldivas-gallery figure { border-radius: 3px; overflow: hidden; aspect-ratio: 16/10; }
 .maldivas-gallery img { width: 100%; height: 100%; object-fit: cover; }
+.maldivas-gallery img.img-pos-low { object-position: 50% 78%; }
 .maldivas-days { margin-top: 2.4rem; display: grid; gap: 1.8rem; }
 .maldivas-day h4 { font-size: 1.2rem; margin: .35rem 0 .5rem; }
 .maldivas-day p:not(.timeline-days) { color: #245c5f; }
