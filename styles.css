@@ -347,6 +347,7 @@ p { max-width: 62ch; }
 .timeline-figure img { width: 100%; height: 100%; object-fit: cover; }
 .timeline-figure-duo { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin: 1.1rem 0; }
 .timeline-figure-duo img { width: 100%; height: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 3px; }
+.timeline-figure-duo--wide img { aspect-ratio: 4/3; }
 .timeline-card p:not(.timeline-days) { color: var(--ink-soft); max-width: 62ch; }
 .timeline-card p:not(.timeline-days) + p { margin-top: .9rem; }
 
