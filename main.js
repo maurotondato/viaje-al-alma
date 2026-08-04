@@ -130,6 +130,34 @@
     if (playPromise && playPromise.catch) playPromise.catch(function () { /* autoplay blocked, poster stays visible */ });
   }
 
+  /* ---------- hero countdown ---------- */
+  function initCountdown() {
+    var el = $("[data-countdown]");
+    var numEl = $("[data-countdown-num]", el);
+    var labelEl = $("[data-countdown-label]", el);
+    if (!el || !numEl || !labelEl) return;
+
+    var departure = new Date("2027-02-15T00:00:00-03:00");
+    var now = new Date();
+    var msPerDay = 86400000;
+    var days = Math.ceil((departure - now) / msPerDay);
+
+    if (days > 1) {
+      numEl.textContent = days;
+      labelEl.textContent = " días para la próxima partida";
+    } else if (days === 1) {
+      numEl.textContent = "";
+      labelEl.textContent = "Mañana partimos rumbo a India";
+    } else if (days === 0) {
+      numEl.textContent = "";
+      labelEl.textContent = "Hoy partimos rumbo a India";
+    } else {
+      el.remove();
+      return;
+    }
+    el.classList.add("is-ready");
+  }
+
   /* ---------- accordion (FAQ) ---------- */
   function initAccordion() {
     var items = $$(".accordion-item");
@@ -204,6 +232,7 @@
     safe(initSmoothScroll, "initSmoothScroll");
     safe(initReveals, "initReveals");
     safe(initHeroVideo, "initHeroVideo");
+    safe(initCountdown, "initCountdown");
     safe(initAccordion, "initAccordion");
     safe(initCursor, "initCursor");
 
