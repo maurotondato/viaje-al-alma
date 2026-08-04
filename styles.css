@@ -240,6 +240,12 @@ p { max-width: 62ch; }
 }
 .hero-sub { margin: 1.6rem auto 0; max-width: 40ch; font-size: 1.05rem; color: #f2e9d8; line-height: 1.6; }
 
+.hero-countdown {
+  margin: 1.4rem auto 0; display: flex; align-items: baseline; justify-content: center; gap: .5rem;
+  font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; color: #f2e9d8; opacity: .82;
+}
+.hero-countdown-num:not(:empty) { font-family: var(--hand); font-size: 1.5rem; letter-spacing: 0; text-transform: none; color: #f2c98a; line-height: 1; }
+
 .hero-scroll-cue {
   position: absolute; left: 50%; bottom: 1.8rem; transform: translateX(-50%);
   z-index: 1; display: flex; flex-direction: column; align-items: center; gap: .5rem;
@@ -255,6 +261,7 @@ p { max-width: 62ch; }
   .hero-kicker { margin-bottom: .8rem; }
   .hero-title { font-size: clamp(1.7rem, 4.4vw, 2.8rem); }
   .hero-sub { margin-top: 1rem; font-size: .96rem; }
+  .hero-countdown { margin-top: .9rem; }
   .hero-scroll-cue { bottom: .9rem; gap: .3rem; }
   .hero-scroll-cue span { display: none; }
 }
