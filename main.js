@@ -179,6 +179,24 @@
     document.addEventListener("visibilitychange", function () {
       if (!document.hidden) tryPlay();
     });
+
+    // Some conditions (e.g. iOS Low Power Mode) block autoplay outright, no
+    // matter how many times we retry .play() from script — only a real tap
+    // gets past that. Offer a manual play button if autoplay hasn't taken
+    // hold a couple seconds after the splash clears.
+    var playBtn = $("[data-hero-play]");
+    if (playBtn) {
+      var revealPlayBtn = function () {
+        if (video.paused) playBtn.classList.add("is-visible");
+      };
+      document.addEventListener("splashhidden", function () {
+        setTimeout(revealPlayBtn, 2000);
+      });
+      video.addEventListener("playing", function () { playBtn.classList.remove("is-visible"); });
+      playBtn.addEventListener("click", function () {
+        video.play().catch(function () {});
+      });
+    }
   }
 
   /* ---------- hero countdown ---------- */

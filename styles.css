@@ -259,6 +259,18 @@ p { max-width: 62ch; }
   background:
     linear-gradient(180deg, rgba(20,14,8,.5) 0%, rgba(20,14,8,.05) 30%, rgba(20,14,8,.15) 64%, rgba(20,14,8,.86) 100%);
 }
+.hero-play-btn {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(.85);
+  z-index: 2; width: 72px; height: 72px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(20,14,8,.38); border: 1.4px solid rgba(253,246,234,.8); color: #fdf6ea;
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .5s var(--ease-out), transform .5s var(--ease-out), background .25s var(--ease-out);
+}
+.hero-play-btn svg { margin-left: 3px; }
+.hero-play-btn.is-visible { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+.hero-play-btn:hover { background: rgba(20,14,8,.55); }
 
 .hero-inner { position: relative; z-index: 1; max-width: 46rem; text-align: center; padding-inline: 1.5rem; }
 .hero-kicker { font-size: .82rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 500; color: #f2c98a; margin-bottom: 1.3rem; }
