@@ -139,8 +139,24 @@
     if (!video) return;
     var markActive = function () { video.classList.add("is-active"); };
     video.addEventListener("playing", markActive, { once: true });
-    var playPromise = video.play();
-    if (playPromise && playPromise.catch) playPromise.catch(function () { /* autoplay blocked, poster stays visible */ });
+
+    var retries = 0;
+    var tryPlay = function () {
+      var playPromise = video.play();
+      if (playPromise && playPromise.catch) playPromise.catch(function () { /* autoplay blocked, poster stays visible */ });
+    };
+    // Self-heal from a bad cached/partial response or a transient decode error
+    // (e.g. WebKit reusing a stale range-request cache entry after a reload)
+    // instead of leaving the poster frozen forever.
+    video.addEventListener("error", function () {
+      if (retries >= 2) return;
+      retries++;
+      setTimeout(function () {
+        video.load();
+        tryPlay();
+      }, 400);
+    });
+    tryPlay();
   }
 
   /* ---------- hero countdown ---------- */
