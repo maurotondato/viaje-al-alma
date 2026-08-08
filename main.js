@@ -137,60 +137,20 @@
   function initHeroVideo() {
     var video = $("[data-hero-video]");
     if (!video) return;
-
-    // Some WebKit/iOS versions get stuck evaluating multiple <source>
-    // children instead of cleanly falling through from the webm (which they
-    // can't play) to the mp4, leaving the element stalled with the poster
-    // frozen. Sidestep the native multi-source fallback entirely and hand
-    // browsers that can't play webm a single, unambiguous source.
-    if (!video.canPlayType || !video.canPlayType('video/webm; codecs="vp9"')) {
-      var mp4Source = video.querySelector('source[type="video/mp4"]');
-      if (mp4Source) {
-        Array.prototype.forEach.call(video.querySelectorAll("source"), function (s) { s.remove(); });
-        video.src = mp4Source.src;
-      }
-    }
-
     var markActive = function () { video.classList.add("is-active"); };
     video.addEventListener("playing", markActive, { once: true });
-
-    var retries = 0;
-    var tryPlay = function () {
-      if (!video.paused) return;
-      var playPromise = video.play();
-      if (playPromise && playPromise.catch) playPromise.catch(function () { /* autoplay blocked, poster stays visible */ });
-    };
-    // Self-heal from a bad cached/partial response or a transient decode error
-    // (e.g. WebKit reusing a stale range-request cache entry after a reload)
-    // instead of leaving the poster frozen forever.
-    video.addEventListener("error", function () {
-      if (retries >= 2) return;
-      retries++;
-      setTimeout(function () {
-        video.load();
-        tryPlay();
-      }, 400);
-    });
-    tryPlay();
-    // Mobile Safari can silently refuse autoplay() while the video sits fully
-    // covered by the opaque splash screen. Retry once it's actually visible,
-    // and again if the tab/page regains visibility (e.g. after backgrounding).
-    document.addEventListener("splashhidden", tryPlay);
-    document.addEventListener("visibilitychange", function () {
-      if (!document.hidden) tryPlay();
-    });
+    var playPromise = video.play();
+    if (playPromise && playPromise.catch) playPromise.catch(function () { /* autoplay blocked, poster stays visible */ });
 
     // Some conditions (e.g. iOS Low Power Mode) block autoplay outright, no
-    // matter how many times we retry .play() from script — only a real tap
-    // gets past that. Offer a manual play button if autoplay hasn't taken
-    // hold a couple seconds after the splash clears.
+    // matter how script calls .play() — only a real tap gets past that.
+    // This stays fully invisible unless autoplay genuinely never takes hold.
     var playBtn = $("[data-hero-play]");
     if (playBtn) {
-      var revealPlayBtn = function () {
-        if (video.paused) playBtn.classList.add("is-visible");
-      };
       document.addEventListener("splashhidden", function () {
-        setTimeout(revealPlayBtn, 2000);
+        setTimeout(function () {
+          if (video.paused) playBtn.classList.add("is-visible");
+        }, 2000);
       });
       video.addEventListener("playing", function () { playBtn.classList.remove("is-visible"); });
       playBtn.addEventListener("click", function () {
