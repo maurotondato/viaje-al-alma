@@ -16,12 +16,19 @@
   function initSplash() {
     var splash = $("[data-splash]");
     if (!splash) return;
+    var MIN_DISPLAY = 1300; // lets the mandala bloom-in animation (1.1s) finish before the splash starts fading
+    var FADE_MS = 650; // matches .splash.is-out's opacity transition, so "splashhidden" fires once it's actually gone
+    var bootTime = Date.now();
     var hidden = false;
-    var hide = function () {
+    var reveal = function () {
       if (hidden) return;
       hidden = true;
       splash.classList.add("is-out");
-      document.dispatchEvent(new Event("splashhidden"));
+      setTimeout(function () { document.dispatchEvent(new Event("splashhidden")); }, FADE_MS);
+    };
+    var hide = function () {
+      var wait = Math.max(0, MIN_DISPLAY - (Date.now() - bootTime));
+      setTimeout(reveal, wait);
     };
     if (document.readyState === "complete") setTimeout(hide, 500);
     else window.addEventListener("load", function () { setTimeout(hide, 350); });
