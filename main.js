@@ -142,6 +142,7 @@
 
     var retries = 0;
     var tryPlay = function () {
+      if (!video.paused) return;
       var playPromise = video.play();
       if (playPromise && playPromise.catch) playPromise.catch(function () { /* autoplay blocked, poster stays visible */ });
     };
@@ -157,6 +158,13 @@
       }, 400);
     });
     tryPlay();
+    // Mobile Safari can silently refuse autoplay() while the video sits fully
+    // covered by the opaque splash screen. Retry once it's actually visible,
+    // and again if the tab/page regains visibility (e.g. after backgrounding).
+    document.addEventListener("splashhidden", tryPlay);
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) tryPlay();
+    });
   }
 
   /* ---------- hero countdown ---------- */
