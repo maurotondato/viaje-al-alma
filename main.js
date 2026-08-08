@@ -16,7 +16,13 @@
   function initSplash() {
     var splash = $("[data-splash]");
     if (!splash) return;
-    var hide = function () { splash.classList.add("is-out"); };
+    var hidden = false;
+    var hide = function () {
+      if (hidden) return;
+      hidden = true;
+      splash.classList.add("is-out");
+      document.dispatchEvent(new Event("splashhidden"));
+    };
     if (document.readyState === "complete") setTimeout(hide, 500);
     else window.addEventListener("load", function () { setTimeout(hide, 350); });
     setTimeout(hide, 3200);
@@ -158,8 +164,15 @@
 
     if (days > 1) {
       labelEl.textContent = " días para la próxima partida";
-      el.classList.add("is-ready");
-      setTimeout(function () { animateCount(numEl, days, 1400); }, 450);
+      var started = false;
+      var start = function () {
+        if (started) return;
+        started = true;
+        el.classList.add("is-ready");
+        animateCount(numEl, days, 1600);
+      };
+      document.addEventListener("splashhidden", start, { once: true });
+      setTimeout(start, 4000);
     } else if (days === 1) {
       numEl.textContent = "";
       labelEl.textContent = "Mañana partimos rumbo a India";
