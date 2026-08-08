@@ -137,6 +137,20 @@
   function initHeroVideo() {
     var video = $("[data-hero-video]");
     if (!video) return;
+
+    // Some WebKit/iOS versions get stuck evaluating multiple <source>
+    // children instead of cleanly falling through from the webm (which they
+    // can't play) to the mp4, leaving the element stalled with the poster
+    // frozen. Sidestep the native multi-source fallback entirely and hand
+    // browsers that can't play webm a single, unambiguous source.
+    if (!video.canPlayType || !video.canPlayType('video/webm; codecs="vp9"')) {
+      var mp4Source = video.querySelector('source[type="video/mp4"]');
+      if (mp4Source) {
+        Array.prototype.forEach.call(video.querySelectorAll("source"), function (s) { s.remove(); });
+        video.src = mp4Source.src;
+      }
+    }
+
     var markActive = function () { video.classList.add("is-active"); };
     video.addEventListener("playing", markActive, { once: true });
 
