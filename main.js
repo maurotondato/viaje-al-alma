@@ -131,6 +131,20 @@
   }
 
   /* ---------- hero countdown ---------- */
+  function animateCount(el, target, duration) {
+    if (reduced) { el.textContent = target; return; }
+    var start = null;
+    function step(ts) {
+      if (start === null) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(target * eased);
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(step);
+  }
+
   function initCountdown() {
     var el = $("[data-countdown]");
     var numEl = $("[data-countdown-num]", el);
@@ -143,19 +157,20 @@
     var days = Math.ceil((departure - now) / msPerDay);
 
     if (days > 1) {
-      numEl.textContent = days;
       labelEl.textContent = " días para la próxima partida";
+      el.classList.add("is-ready");
+      setTimeout(function () { animateCount(numEl, days, 1400); }, 450);
     } else if (days === 1) {
       numEl.textContent = "";
       labelEl.textContent = "Mañana partimos rumbo a India";
+      el.classList.add("is-ready");
     } else if (days === 0) {
       numEl.textContent = "";
       labelEl.textContent = "Hoy partimos rumbo a India";
+      el.classList.add("is-ready");
     } else {
       el.remove();
-      return;
     }
-    el.classList.add("is-ready");
   }
 
   /* ---------- accordion (FAQ) ---------- */
